@@ -40,5 +40,5 @@ app.post('/images', upload.single('file'), (req, res) => {
 
 const PORT = process.env.PORT || 5009;
 app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+  console.log(`Server is running on https://rahmahsaif-reactapp-1fef003e9308.herokuapp.com/`);
 });

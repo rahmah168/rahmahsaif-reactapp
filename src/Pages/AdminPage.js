@@ -98,17 +98,10 @@ function AdminPage({ onCreatedProduct }) {
   };
 
   const addProduct = async () => {
-    // Ensure `file` is defined and contains a valid file object
-    console.log(file);  // Check if file object is valid
-
-    // Check that `file` exists and has the correct properties
-    if (!file || !file.name) {
-        return swal("Error", "No file selected for upload.", "error");
-    }
-
-    const url = "https://rahmahsaif-react-8a5b146dcade.herokuapp.com/images/";
+    const url = "https://rahmahsaif-reactapp-1fef003e9308.herokuapp.com/images";
     const formData = new FormData();
-    formData.append("file", file);  // Ensure `file` is properly initialized
+    formData.append("file", file);
+    formData.append("fileName", file.name);
     const config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -116,21 +109,21 @@ function AdminPage({ onCreatedProduct }) {
     };
 
     try {
-      // Upload the image
-      await axios.post(url, formData, config);
-
-      // Add the product
+      const response = await axios
+        .post(url, formData, config)
+        .then((response) => {
+          console.log(response.data);
+        });
       await axios.post(
-        "https://rahmahsaif-api-3d2345e25339.herokuapp.com/api/product",
+        "https://rahmahsaif-app-9ed0f6bb8452.herokuapp.com/api/product",
         {
           productName: productname,
           productDescription: pdesc,
           productPrice: price,
-          productImage: file.name,  // Ensure this matches the uploaded file
-          categoryid: selectedCategory,
+          productImage: image,
+          categoryid: catid,
         }
       );
-
       onCreatedProduct();
       fetchProducts();
       setValidated(false);
@@ -139,7 +132,7 @@ function AdminPage({ onCreatedProduct }) {
     } catch (error) {
       swal("Error", error.message, "error");
     }
-};
+  };
 
 
 
@@ -163,7 +156,7 @@ function AdminPage({ onCreatedProduct }) {
 
   const modifyProduct = async (id) => {
     if (file) {
-      const url = "https://rahmahsaif-react-8a5b146dcade.herokuapp.com/images/";
+      const url = "https://rahmahsaif-reactapp-1fef003e9308.herokuapp.com/images";
       const formData = new FormData();
       formData.append("file", file);
       formData.append("fileName", file.name);
